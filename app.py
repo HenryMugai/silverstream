@@ -82,12 +82,33 @@ df
 
 # chart
 st.title('comparison of the average results')
+subjects = ['ENG', 'KIS', 'MATH', 'SCI', 'SSR']
+marks1 = []
+for subject in subjects:
+    average=df_2018[subject].mean()
+    marks1.append(average)
+marks2 = []
+for subject in subjects:
+    average=df_2019[subject].mean()
+    marks2.append(average)
+marks3 = []
+for subject in subjects:
+    average=df_2020[subject].mean()
+    marks3.append(average)
+marks4 = []
+for subject in subjects:
+    average=df_2021[subject].mean()
+    marks4.append(average)
+    
+zipped = list(zip(marks1, marks2, marks3, marks4))
+df = pd.DataFrame(zipped, columns=['2018', '2019', '2020', '2021'])
+df = df.T
+df.columns= subjects
+fig = px.line(df.T, labels={
+                     "value": "Average marks",
+                     "index": "Subjects"})
+fig.update_xaxes(showgrid=False)
+fig.update_yaxes(showgrid=False)
 
-chart_data = pd.DataFrame(
-     np.random.randn(20, 2),
-     columns=['subject', 'average'])
 
-st.line_chart(chart_data)
-
-
-
+st.plotly_chart(fig)
